@@ -3,19 +3,28 @@
 // also css sucks
 
 const display = document.querySelector('#display');
-var bool = true;
-var rick = true;
-var ans = 0;
-var lm = true;
+
+// This object is used to store the state of the calculator
+var stuff ={
+    bool: true,
+    rick: true,
+    ans: 0,
+    lm: true,
+    hm: true
+}
 
 // This adds the input to the display
 function appendToDisplay(value) {
-    if (bool) {
+    if(stuff.hm){ 
+        if(stuff.bool){
+            
         display.value ="";
-        bool = false;
+        stuff.bool = false;
+        }
+        display.value += value;
+        return;
     }
-
-    display.value += value;
+   
 }
 
 // This function is called when a number or operator key is pressed
@@ -27,7 +36,8 @@ function calculate() {
         //this line of code will evaluate the expression in the display and set the value of the display to the result
     display.value = eval(display.value);
     ans = display.value;
-    bool = true;
+    stuff.bool = true;
+    stuff.hm = true;
     
     }catch(err){
         displayError()
@@ -38,15 +48,15 @@ function calculate() {
 // self explanatory
 
 function ricky() {
-    if(rick){
+    if(stuff.rick){
         display.value = "Never gonna give you up";
         const song = new Audio('./song/rolls.mp3');
         song.play();
-        rick = false;
+        stuff.rick = false;
         window.setTimeout(function(){
             display.value = "0";
             song.pause();
-            rick = true;
+            stuff.rick = true;
         }, 30000);
         
         return;
@@ -58,19 +68,20 @@ function ricky() {
 
 function clearDisplay() {
     display.value = "0";
-    bool = true;
-    lm = true;
+    stuff.bool = true;
+    stuff.lm = true;
 }
 
 // This function clears the last character from the display one at a time its for the button C
 
 function del() {
-    if(!bool){
+    if(!stuff.bool){
         if(display.value.length == 1){
             display.value = display.value.slice(0, -1);
             display.value = "0";
-            bool = true;
-            lm = true;
+            stuff.bool = true;
+            stuff.lm = true;
+            stuff.hm = false;
             return;
         }
         display.value = display.value.slice(0, -1);
@@ -85,9 +96,9 @@ function answer() {
     if(ans == 0){
         return;
     }
-    else if(lm) {
+    else if(stuff.lm) {
         appendToDisplay(ans)
-        lm = false;
+        stuff.lm = false;
     }
     
 }
@@ -96,4 +107,9 @@ function answer() {
 
 function displayError() {
     display.value = "Error";
+    stuff.hm = false;
+    window.setTimeout(function(){
+        display.value = "0";
+        stuff.hm = true;
+    }, 1000);
 };
