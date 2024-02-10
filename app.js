@@ -1,6 +1,6 @@
 //bro your Shooorrttttttttt 😂
 // This is the main file for the calculator it contains all the functions for the calculator
-// css sucks
+// also css sucks
 
 const display = document.querySelector('#display');
 var bool = true;
