@@ -47,7 +47,7 @@ function calculate() {
 
 // self explanatory
 
-function ricky() {
+function rick() {
     if(stuff.rick){
         display.value = "Never gonna give you up";
         const song = new Audio('./song/rolls.mp3');
