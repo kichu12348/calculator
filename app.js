@@ -22,6 +22,7 @@ function appendToDisplay(value) {
         stuff.bool = false;
         }
         display.value += value;
+        stuff.lm = true;
         return;
     }
    
@@ -31,11 +32,13 @@ function appendToDisplay(value) {
 
 function calculate() {
     //this is a try catch block, it'll try the code and if it has errors it'll catch them and run the code in the catch block
-    
+    if(!stuff.hm){
+        return;
+    }
     try{
         //this line of code will evaluate the expression in the display and set the value of the display to the result
     display.value = eval(display.value);
-    ans = display.value;
+    stuff.ans = display.value;
     stuff.bool = true;
     stuff.hm = true;
     
@@ -47,16 +50,18 @@ function calculate() {
 
 // self explanatory
 
-function ricky() {
+function rick() {
     if(stuff.rick){
         display.value = "Never gonna give you up";
         const song = new Audio('./song/rolls.mp3');
         song.play();
         stuff.rick = false;
+        stuff.hm = false;
         window.setTimeout(function(){
             display.value = "0";
             song.pause();
             stuff.rick = true;
+            stuff.hm = true;
         }, 30000);
         
         return;
@@ -67,39 +72,47 @@ function ricky() {
 // This function clears the display completely its for the button AC
 
 function clearDisplay() {
-    display.value = "0";
-    stuff.bool = true;
-    stuff.lm = true;
+    if(stuff.hm){
+        display.value = "0";
+        stuff.bool = true;
+        stuff.lm = true;
+    }
 }
 
 // This function clears the last character from the display one at a time its for the button C
 
 function del() {
-    if(!stuff.bool){
-        if(display.value.length == 1){
-            display.value = display.value.slice(0, -1);
-            display.value = "0";
-            stuff.bool = true;
-            stuff.lm = true;
-            stuff.hm = false;
-            return;
+    if (stuff.hm){
+        if(!stuff.bool){
+            if(display.value.length == 1){
+                display.value = display.value.slice(0, -1);
+                display.value = "0";
+                stuff.bool = true;
+                stuff.lm = true;
+                stuff.hm = false;
+                return;
         }
-        display.value = display.value.slice(0, -1);
-        return;
+            display.value = display.value.slice(0, -1);
+            return;
     }
+}
+    
     
 }
 
 // This function is called when the answer key is pressed it'll append the answer from the previous calculation to the display
 
 function answer() {
-    if(ans == 0){
+    if(stuff.hm){
+        if(stuff.ans === 0){
         return;
+        }
+        else if(stuff.lm){
+            appendToDisplay(stuff.ans);
+            stuff.lm = false;
+        }
     }
-    else if(stuff.lm) {
-        appendToDisplay(ans)
-        stuff.lm = false;
-    }
+    
     
 }
 
